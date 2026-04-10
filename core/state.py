@@ -631,12 +631,12 @@ def filter_race_schedule(state):
     schedule[date_long].append(race)
   config.RACE_SCHEDULE = schedule
   for date in schedule:
-    for race in schedule[date]:
-      if race["name"] not in [k["name"] for k in constants.RACES[date]]:
+    for race in list(schedule[date]):
+      if race["name"] not in [k["name"] for k in constants.RACES.get(date, [])]:
         schedule[date].remove(race)
       else:
         # find race name in constants.ALL_RACES[date] and get fans_gained
-        for race_data in constants.ALL_RACES[date]:
+        for race_data in constants.ALL_RACES.get(date, []):
           if race_data["name"] == race["name"]:
             race["fans_gained"] = race_data["fans"]["gained"]
             break

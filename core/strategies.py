@@ -259,7 +259,7 @@ class Strategy:
   def check_scheduled_races(self, state, action):
     date = state["year"]
 
-    races_on_date = constants.RACES[date]
+    races_on_date = constants.RACES.get(date, [])
 
     if not races_on_date:
       return action
@@ -274,9 +274,9 @@ class Strategy:
     for race in scheduled_races_on_date:
       if best_race_name is None:
         best_race_name = race["name"]
-        best_fans_gained = race["fans_gained"]
+        best_fans_gained = race.get("fans_gained", 0)
       else:
-        fans_gained = race["fans_gained"]
+        fans_gained = race.get("fans_gained", 0)
         if fans_gained > best_fans_gained:
           best_race_name = race["name"]
           best_fans_gained = fans_gained
